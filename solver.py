@@ -8,6 +8,10 @@ def output(a):
 
 N = 9
 
+"""
+input sudoku puzzle into field.
+tbd - implement a file reader to read in a sudoku problem via a text file.
+"""
 field = [[5,1,7,6,0,0,0,3,4],
          [2,8,9,0,0,4,0,0,0],
          [3,4,6,2,0,5,0,9,0],
@@ -43,7 +47,9 @@ def print_field(field):
 
 
 def read(field):
-    """ Read field into state (replace 0 with set of possible values) """
+    """
+    Read field into state (replace 0 with set of possible values)
+    """
 
     state = deepcopy(field)
     for i in range(N):
@@ -58,7 +64,9 @@ state = read(field)
 
 
 def done(state):
-    """ Are we done? """
+    """
+    Check if done. True if done, false otherwise.
+    """
 
     for row in state:
         for cell in row:
@@ -70,10 +78,9 @@ def done(state):
 def propagate_step(state):
     """
     Propagate one step.
-
-    @return:  A two-tuple that says whether the configuration
-              is solvable and whether the propagation changed
-              the state.
+    Return a two-tuple that says whether the configuration
+    is solvable and whether the propagation changed
+    the state.
     """
 
     new_units = False
@@ -132,7 +139,9 @@ def propagate_step(state):
     return True, new_units
 
 def propagate(state):
-    """ Propagate until we reach a fixpoint """
+    """
+    Propagate until we reach a fixpoint.
+    """
     while True:
         solvable, new_unit = propagate_step(state)
         if not solvable:
@@ -142,7 +151,9 @@ def propagate(state):
 
 
 def solve(state):
-    """ Solve sudoku """
+    """
+    Solve the actual Sudoku.
+    """
     solvable = propagate(state)
 
     if not solvable:
@@ -166,4 +177,4 @@ def solve(state):
 t0 = time.time()
 print_field(solve(state))
 t1 = time.time()
-print(t1-t0," Seconds")
+print("Completed in",(t1-t0)*1000,"seconds")
